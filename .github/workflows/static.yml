@@ -1,47 +1,49 @@
- name: Deploy Vue Frontend to Pages
-    
-    on:
-      push:
-        branches: ["main"]
-    
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    
-    concurrency:
-      group: "pages"
-      cancel-in-progress: false
-    
-    jobs:
-      deploy:
-        environment:
-          name: github-pages
-          url: ${{ steps.deployment.outputs.page_url }}
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout
-            uses: actions/checkout@v4
-    
-          - name: Set up Node.js
-            uses: actions/setup-node@v4
-            with:
-              node-version: 20
+name: Deploy Vue Frontend to Pages
 
-          - name: Install and Build Frontend
-            run: |
-              cd vuetify-project
-              npm install
-              npm run build
+on:
+  push:
+    branches: ["main"]
 
-          - name: Setup Pages
-            uses: actions/configure-pages@v4
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-          - name: Upload artifact
-            uses: actions/upload-pages-artifact@v3
-            with:
-              path: './vuetify-project/dist'
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
-          - name: Deploy to GitHub Pages
-            id: deployment
-            uses: actions/deploy-pages@v4
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: vuetify-project
+
+      - name: Build Vue Project
+        run: npm run build
+        working-directory: vuetify-project
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'vuetify-project/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
