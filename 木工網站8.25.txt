@@ -1,0 +1,24 @@
+1. 權限與治理系統 (Roles & Governance)模組規則與功能細節職人身份審核買家申請轉職人時，須填寫「品牌簡介」並上傳「代表作品圖」；提交後進入管理員待審核佇列。作品上架機制預設啟用「管理員審核」：作品發布後為待審狀態。後台提供全域開關可切換為 「無審核模式」，開啟後作品發布即可自動公開。爭議處理中心獨立訂單爭議頁面，提供買家與職人專屬留言版。管理員擁有開啟/封閉權限，並可強制介入仲裁。帳號與商品管控管理員後台具備單鍵「下架違規商品」與「凍結職人帳號（禁止登入/提領/上架）」功能。
+
+2. 商品與展示規格 (Products & Display)銷售屬性定義：BATCH：可批次量產（可自訂庫存數量）。UNIQUE：獨一無二現貨（庫存預設固定為 1）。CUSTOM：客製化訂做（開放手作備貨期備註與客製需求欄位）。搜尋過濾器 (Search & Filters)：木材種類 (Wood Species)：支援臺灣檜木、黑胡桃木、柚木、櫸木、白橡木等多選過濾。塗漆方式 (Coating Method)：支援天然護木油、木蠟油、生漆/推光漆、無塗裝等多選過濾。畫廊圖文佈局 (Gallery Layout)：主要正面圖 $\times 1$。縮小版細節圖 $\times$ 最多 3 張（散落排列於正面圖側邊）。點擊任意圖片觸發 Lightbox 高解析度放大鏡，呈現木頭紋理與細微工藝細節。
+
+3. 交易、物流與金流 (Transactions, Logistics & Payment)購買行為防呆確認 (Mandatory Confirmation)：使用者點擊下單時，強制跳出 v-dialog 二次確認對話框。對話框內容：包含 作品名稱、總金額、購買數量、木工特殊運送備註。API 阻斷機制：僅當使用者再次點擊「確認付款 / 下單」按鈕時，前端方可發送 HTTP POST 訂單建立 API。物流配送體系：職人可自訂配送選單：專車配送 / 面交 / 郵寄。針對大型或易碎木工作品，系統預設整合 大榮貨運 (Kerry TJ Logistics) 運費計算與單號追蹤。綠界金流對接：導入綠界 (ECPay) 結帳 SDK，訂單成立後直接重定向至綠界頁面完成刷卡/轉帳。
+
+4. UI/UX 頁面與品牌視覺 (Frontend Layout & Community)前台首頁 (Homepage)：Top：品牌精神 Hero Banner（溫暖木褐、大地米白視覺調性）。Middle：當週主打職人專區（單一職人重點故事與精選作品）。Bottom：推薦作品瀑布流 / 卡片流（包含作品封面、職人 Name Tag、價格）。職人獨立主頁 (Artisan Studio)：包含職人頭像、品牌故事、個人手作經驗、代表作品畫廊與已上架商品列表。買家評價與開箱 (Reviews)：商品頁底部展示 1-5 星等評分、文字評價，並支援 最多 5 張開箱實體照上傳。
+
+5. 視覺風格與 UI/UX 規範 (Visual Style & UI Design)
+主視覺調性：極簡大氣、溫潤木質感、職人匠人風格。
+色彩系統：
+主色 (Primary)：溫暖木褐 (#8B4513 / #A0522D)
+輔助色 (Secondary)：大地米白 (#FDFBF7)，提升閱讀舒適度與圖片對比。
+點綴色 (Accent)：黃銅金 (#D4AF37)，用於購買按鈕、VIP 標章、高質感引導。
+中性色 (Neutral)：深焦炭灰 (#2B2B2B) 作為內文顏色，避免純黑帶來的冰冷感。
+視覺重點：
+圖片體驗：採用全螢幕或卡片式。
+細節呈現：多圖瀏覽支援「高解析度放大鏡」功能，精細呈現木頭紋理與打磨工藝。
+
+6. 資安與金鑰架構 (Security & Key Management)金鑰隔離與詢問機制：所有敏感憑證（JWT Secrets、Database URI、Cloudinary API Credentials、綠界金流 Key）皆實施環境變數（.env）隔離。開發與部署討論至相關模組時，系統會先向你發出確認提問，方進行環境變數建置。雙 Token 續簽架構：Access Token：效期 15 分鐘，放於記憶體狀態（Pinia）。Refresh Token：效期 7 天，設置 HttpOnly; Secure; SameSite=Strict Cookie。Axios 無感續簽：前端 Response 攔截器捕獲 401 時，自動觸發 /api/auth/refresh 靜默刷新 Access Token 並重試原請求。
+
+7. 前端 Pinia 狀態管理 (State Management)
+
+8. 📦 元件模組化應用 (Component Architecture)

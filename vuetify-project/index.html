@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>匠心木藝 ｜ Woodcraft Studio</title>
+
+    <!-- 載入經典書法字型：Ma Shan Zheng (馬善政書法行書)、LXGW WenKai TC (霞鶖文楷楷書)、Noto Serif TC (思源明體) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+      /* 全站預設字型設定：標題字採用毛筆書法行書/楷書質感，內文採用清晰文楷 */
+      body, #app {
+        font-family: 'LXGW WenKai TC', 'Noto Serif TC', '標楷體', 'DFKai-SB', serif !important;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #1A1A1A;
+      }
+
+      /* 書法風格大標題 Class */
+      .calligraphy-title {
+        font-family: 'Ma Shan Zheng', 'LXGW WenKai TC', '標楷體', serif !important;
+        letter-spacing: 2px;
+      }
+
+      /* 內文清晰度強化 */
+      .text-body-1, .text-body-2, p, span, div {
+        font-family: 'LXGW WenKai TC', 'Noto Serif TC', serif !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
