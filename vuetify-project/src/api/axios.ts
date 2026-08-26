@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : 'https://wood20260825.onrender.com/api',
+  baseURL: (import.meta as any).env?.VITE_API_URL ? `${(import.meta as any).env.VITE_API_URL}/api` : 'https://wood20260825.onrender.com/api',
   withCredentials: true, // 帶上 HttpOnly Refresh Token Cookie
 });
 
