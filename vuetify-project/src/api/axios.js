@@ -1,6 +1,6 @@
 import axios from 'axios';
 const api = axios.create({
-    baseURL: '/api',
+    baseURL: import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : 'https://wood20260825.onrender.com/api',
     withCredentials: true, // 帶上 HttpOnly Refresh Token Cookie
 });
 let accessTokenInMemory = null;
@@ -20,7 +20,7 @@ api.interceptors.response.use((response) => response, async (error) => {
         originalRequest._retry = true;
         try {
             // 嘗試發送 refresh 請求
-            const res = await axios.post('/api/auth/refresh', {}, { withCredentials: true });
+            const res = await api.post('/auth/refresh', {}, { withCredentials: true });
             const newToken = res.data.accessToken;
             setAccessToken(newToken);
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
